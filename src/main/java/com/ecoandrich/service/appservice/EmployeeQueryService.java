@@ -1,24 +1,19 @@
 package com.ecoandrich.service.appservice;
 
 import com.ecoandrich.domain.QEmployee;
-import com.ecoandrich.domain.QJobHistory;
 import com.ecoandrich.service.dto.GetEmployeeHistoricalInfo;
-import com.ecoandrich.service.dto.GetEmployeeInfo;
-import com.querydsl.core.types.ConstructorExpression;
-import com.querydsl.core.types.Expression;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.ecoandrich.service.dto.GetEmployeeStatusInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.ecoandrich.domain.QDepartment.department;
 import static com.ecoandrich.domain.QEmployee.employee;
 import static com.ecoandrich.domain.QJob.job;
 import static com.ecoandrich.domain.QJobHistory.*;
-import static com.ecoandrich.service.dto.GetEmployeeInfo.*;
+import static com.ecoandrich.service.dto.GetEmployeeStatusInfo.*;
 import static com.querydsl.core.types.Projections.constructor;
 
 @Component
@@ -28,17 +23,18 @@ public class EmployeeQueryService {
 
     private static final QEmployee manager = new QEmployee("manager");
 
-    public GetEmployeeInfo findEmployeeInfoById(int employeeId) {
-        return jpaQueryFactory.select(
-                        constructor(GetEmployeeInfo.class,
-                                employee.id,
-                                employee.firstName,
-                                employee.lastName,
-                                employee.email,
-                                employee.phoneNumber,
-                                employee.hireDate,
-                                employee.salary,
-                                employee.commissionPct,
+    public Optional<GetEmployeeStatusInfo> findEmployeeInfoById(int employeeId) {
+        GetEmployeeStatusInfo getEmployeeStatusInfo = jpaQueryFactory.select(
+                        constructor(GetEmployeeStatusInfo.class,
+                                constructor(GetEmployeeInfo.class,
+                                        employee.id,
+                                        employee.firstName,
+                                        employee.lastName,
+                                        employee.email,
+                                        employee.phoneNumber,
+                                        employee.hireDate,
+                                        employee.salary,
+                                        employee.commissionPct),
                                 constructor(GetJobInfo.class,
                                         job.id,
                                         job.jobTitle),
@@ -48,13 +44,15 @@ public class EmployeeQueryService {
                                         employee.manager.lastName),
                                 constructor(GetDepartmentInfo.class,
                                         department.id,
-                                        department.departmentName))
-                ).from(employee)
+                                        department.departmentName)))
+                .from(employee)
                 .leftJoin(employee.job, job)
                 .leftJoin(employee.manager, manager)
                 .leftJoin(employee.department, department)
                 .where(employee.id.eq(employeeId))
                 .fetchOne();
+
+        return Optional.ofNullable(getEmployeeStatusInfo);
     }
 
     public Optional<GetEmployeeHistoricalInfo> findHistoricalInfoById(int employeeId) {

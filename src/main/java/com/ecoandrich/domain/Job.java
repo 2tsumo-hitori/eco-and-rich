@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Job {
+
     @Id
     @Column(name = "job_id")
     private String id;

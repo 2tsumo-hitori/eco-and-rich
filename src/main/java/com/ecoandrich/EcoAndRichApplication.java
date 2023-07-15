@@ -9,5 +9,4 @@ public class EcoAndRichApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EcoAndRichApplication.class, args);
 	}
-
 }

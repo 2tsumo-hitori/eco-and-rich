@@ -10,22 +10,8 @@ import java.time.LocalDate;
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
-public class GetEmployeeInfo {
-    private int employeeId;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
-    private String phoneNumber;
-
-    private LocalDate hireDate;
-
-    private int salary;
-
-    private BigDecimal commissionPct;
+public class GetEmployeeStatusInfo {
+    private GetEmployeeInfo employeeInfo;
 
     private GetJobInfo jobInfo;
 
@@ -36,7 +22,30 @@ public class GetEmployeeInfo {
     @Data
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class GetEmployeeInfo {
+
+        private int employeeId;
+
+        private String firstName;
+
+        private String lastName;
+
+        private String email;
+
+        private String phoneNumber;
+
+        private LocalDate hireDate;
+
+        private int salary;
+
+        private BigDecimal commissionPct;
+    }
+    
+    @Data
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class GetJobInfo {
+
         private String jobId;
 
         private String jobTitle;
@@ -46,6 +55,7 @@ public class GetEmployeeInfo {
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class GetManagerInfo {
+
         private int employeeId;
 
         private String firstName;
@@ -57,6 +67,7 @@ public class GetEmployeeInfo {
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class GetDepartmentInfo {
+
         private int departmentId;
 
         private String departmentName;

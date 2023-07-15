@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Location {
+
     @Id
     @Column(name = "location_id")
     private int id;

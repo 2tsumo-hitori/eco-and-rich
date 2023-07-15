@@ -1,6 +1,7 @@
 package com.ecoandrich.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,8 +10,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.*;
+
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(NON_NULL)
 public class GetEmployeeHistoricalInfo {
     private GetEmployeeInfo employeeInfo;
 
@@ -20,10 +23,15 @@ public class GetEmployeeHistoricalInfo {
         this.employeeInfo = employeeInfo;
     }
 
+    public void addObject(LocalDate startDate, int departmentId, String departmentName, String jobId, String jobTitle, LocalDate endDate) {
+        historicalInfo.add(new GetHistoricalInfo(startDate, new GetDepartmentInfo(departmentId, departmentName), new GetJobInfo(jobId, jobTitle), endDate));
+    }
+
     @Data
     @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(NON_NULL)
     public static class GetEmployeeInfo {
+
         private int employeeId;
 
         private String firstName;
@@ -43,8 +51,9 @@ public class GetEmployeeHistoricalInfo {
 
     @Data
     @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(NON_NULL)
     public static class GetJobInfo {
+
         private String jobId;
 
         private String jobTitle;
@@ -52,8 +61,9 @@ public class GetEmployeeHistoricalInfo {
 
     @Data
     @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(NON_NULL)
     public static class GetDepartmentInfo {
+
         private int departmentId;
 
         private String departmentName;
@@ -61,8 +71,9 @@ public class GetEmployeeHistoricalInfo {
 
     @Data
     @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonInclude(NON_NULL)
     public static class GetHistoricalInfo {
+
         private LocalDate startDate;
 
         private GetDepartmentInfo departmentInfo;

@@ -25,4 +25,24 @@ public class JobHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
+
+    public int getDepartmentId() {
+        return this.getDepartment().getId();
+    }
+
+    public String getDepartmentName() {
+        return this.getDepartment().getDepartmentName();
+    }
+
+    public String getJobId() {
+        return this.getJob().getId();
+    }
+
+    public String getJobTitle() {
+        return this.getJob().getJobTitle();
+    }
+
+    public LocalDate getStartDate() {
+        return this.getPk().getStartDate();
+    }
 }

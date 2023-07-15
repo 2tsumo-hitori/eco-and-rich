@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import static org.springframework.http.ResponseEntity.*;
+
 @RestControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class ApiAdvice {
     public ResponseEntity<ClientFailureResponse<String>> exception(ParameterInValidException ex) {
         log.info(ex.getMessage(), ex);
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return status(HttpStatus.NOT_FOUND)
                 .body(new ClientFailureResponse<>(ex.getMessage()));
     }
 }

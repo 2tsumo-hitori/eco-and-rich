@@ -10,5 +10,5 @@ import java.util.List;
 public interface JobHistoryRepository extends JpaRepository<JobHistory, Long> {
 
     @Query("SELECT j FROM JobHistory j JOIN FETCH j.department JOIN FETCH j.job WHERE j.pk.employee.id = :employeeId")
-    public List<JobHistory> findByEmployeeId(@Param("employeeId")int employeeId);
+    public List<JobHistory> findByEmployeeId(@Param("employeeId") int employeeId);
 }
