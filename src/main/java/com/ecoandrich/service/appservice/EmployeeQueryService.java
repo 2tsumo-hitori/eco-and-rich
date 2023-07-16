@@ -1,9 +1,11 @@
 package com.ecoandrich.service.appservice;
 
-import com.ecoandrich.domain.QEmployee;
+import com.ecoandrich.domain.*;
 import com.ecoandrich.service.dto.GetEmployeeHistoricalInfo;
+import com.ecoandrich.service.dto.GetEmployeeInfo;
 import com.ecoandrich.service.dto.GetEmployeeStatusInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,9 @@ import static com.ecoandrich.domain.QEmployee.employee;
 import static com.ecoandrich.domain.QJob.job;
 import static com.ecoandrich.domain.QJobHistory.*;
 import static com.ecoandrich.service.dto.GetEmployeeStatusInfo.*;
+import static com.querydsl.core.types.ExpressionUtils.*;
 import static com.querydsl.core.types.Projections.constructor;
+import static com.querydsl.jpa.JPAExpressions.*;
 
 @Component
 @RequiredArgsConstructor
@@ -26,7 +30,7 @@ public class EmployeeQueryService {
     public Optional<GetEmployeeStatusInfo> findEmployeeInfoById(int employeeId) {
         GetEmployeeStatusInfo getEmployeeStatusInfo = jpaQueryFactory.select(
                         constructor(GetEmployeeStatusInfo.class,
-                                constructor(GetEmployeeInfo.class,
+                                constructor(GetEmployeeStatusInfo.GetEmployeeInfo.class,
                                         employee.id,
                                         employee.firstName,
                                         employee.lastName,
@@ -74,5 +78,34 @@ public class EmployeeQueryService {
                 .fetchFirst();
 
         return Optional.ofNullable(historicalInfo);
+    }
+
+    @Transactional
+    public void employeeSalaryBulkUpdateByDepartmentId(int departmentId, double rate) {
+        jpaQueryFactory
+                .update(employee)
+                .set(employee.salary, employee.salary.doubleValue().multiply(rate).intValue())
+                .where(employee.department.id.eq(departmentId))
+                .execute();
+    }
+
+    @Transactional
+    public GetEmployeeInfo employeeInfo(int managerId, String jobId, int departmentId) {
+        Employee manager = jpaQueryFactory
+                .selectFrom(employee)
+                .where(employee.id.eq(managerId))
+                .fetchOne();
+
+        Job job = jpaQueryFactory
+                .selectFrom(QJob.job)
+                .where(QJob.job.id.eq(jobId))
+                .fetchOne();
+
+        Department department = jpaQueryFactory
+                .selectFrom(QDepartment.department)
+                .where(QDepartment.department.id.eq(departmentId))
+                .fetchOne();
+
+        return new GetEmployeeInfo(manager, job, department);
     }
 }

@@ -75,13 +75,14 @@ CREATE TABLE job_history (
                              start_date DATE NOT NULL,
                              end_date DATE NOT NULL,
                              job_id VARCHAR(10) NOT NULL,
-                             department_id INT (11) UNSIGNED NOT NULL
+                             department_id INT (11) UNSIGNED NOT NULL,
+                             constraint job_history_pk PRIMARY KEY (employee_id, start_date)
 );
 
-ALTER TABLE job_history ADD UNIQUE INDEX (
-    employee_id,
-    start_date
-    );
+# ALTER TABLE job_history ADD UNIQUE INDEX (
+#     employee_id,
+#     start_date
+#     );
 
 
 CREATE VIEW emp_details_view

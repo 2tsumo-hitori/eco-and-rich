@@ -1,7 +1,10 @@
 package com.ecoandrich.controller;
 
 import com.ecoandrich.controller.dto.ClientFailureResponse;
+import com.ecoandrich.controller.dto.ServerFailureResponse;
 import com.ecoandrich.support.exception.ParameterInValidException;
+import com.ecoandrich.support.exception.WrongParameterNameException;
+import com.ecoandrich.support.exception.WrongRateRangeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,5 +25,21 @@ public class ApiAdvice {
 
         return status(HttpStatus.NOT_FOUND)
                 .body(new ClientFailureResponse<>(ex.getMessage()));
+    }
+
+    @ExceptionHandler(WrongRateRangeException.class)
+    public ResponseEntity<ServerFailureResponse<String>> exception(WrongRateRangeException ex) {
+        log.info(ex.getMessage(), ex);
+
+        return status(HttpStatus.NOT_FOUND)
+                .body(new ServerFailureResponse<>(ex.getMessage()));
+    }
+
+    @ExceptionHandler(WrongParameterNameException.class)
+    public ResponseEntity<ServerFailureResponse<String>> exception(WrongParameterNameException ex) {
+        log.info(ex.getMessage(), ex);
+
+        return status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ServerFailureResponse<>(ex.getMessage()));
     }
 }

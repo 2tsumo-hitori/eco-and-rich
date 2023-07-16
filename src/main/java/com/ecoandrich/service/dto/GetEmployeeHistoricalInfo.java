@@ -24,7 +24,10 @@ public class GetEmployeeHistoricalInfo {
     }
 
     public void addObject(LocalDate startDate, int departmentId, String departmentName, String jobId, String jobTitle, LocalDate endDate) {
-        historicalInfo.add(new GetHistoricalInfo(startDate, new GetDepartmentInfo(departmentId, departmentName), new GetJobInfo(jobId, jobTitle), endDate));
+        historicalInfo.add(
+                new GetHistoricalInfo(startDate,
+                new GetDepartmentInfo(departmentId, departmentName),
+                new GetJobInfo(jobId, jobTitle), endDate));
     }
 
     @Data

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class SuccessResponse<T> {
     private final int httpStatus = HttpStatus.OK.value();
 
-    private HttpStatus message = HttpStatus.OK;
+    private final HttpStatus message = HttpStatus.OK;
 
     private T data;
 

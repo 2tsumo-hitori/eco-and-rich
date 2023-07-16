@@ -1,13 +1,24 @@
 package com.ecoandrich.service;
 
+import com.ecoandrich.domain.Department;
+import com.ecoandrich.domain.Employee;
+import com.ecoandrich.domain.Job;
+import com.ecoandrich.repository.DepartmentRepository;
+import com.ecoandrich.repository.EmployeeRepository;
 import com.ecoandrich.repository.JobHistoryRepository;
+import com.ecoandrich.repository.JobRepository;
 import com.ecoandrich.service.appservice.EmployeeQueryService;
 import com.ecoandrich.service.dto.GetEmployeeHistoricalInfo;
+import com.ecoandrich.service.dto.GetEmployeeInfo;
 import com.ecoandrich.service.dto.GetEmployeeStatusInfo;
 import com.ecoandrich.support.PreCondition;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static com.querydsl.core.types.Projections.constructor;
 
@@ -18,6 +29,11 @@ public class EmployeeService {
     private final EmployeeQueryService employeeQueryService;
 
     private final JobHistoryRepository jobHistoryRepository;
+
+    private final EmployeeRepository employeeRepository;
+
+    private static final String UPDATE_SUCCESS_MESSAGE = "변경 성공";
+
 
     public GetEmployeeStatusInfo findEmployeeInfoById(int employeeId) {
 
@@ -39,5 +55,23 @@ public class EmployeeService {
                 );
 
         return historicalInfo;
+    }
+
+    @Transactional
+    public String updateDepartmentSalaryInfo(int departmentId, int rate) {
+        employeeQueryService.employeeSalaryBulkUpdateByDepartmentId(departmentId, rate * 0.01 + 1);
+
+        return UPDATE_SUCCESS_MESSAGE;
+    }
+
+    @Transactional
+    public String updateEmployeeInfo(int employeeId, String firstName, String lastName, String email, String phoneNumber, LocalDate hireDate, int salary, BigDecimal commissionPct, Long managerId, String jobId, Long departmentId) {
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow();
+
+        GetEmployeeInfo employeeInfo = employeeQueryService.employeeInfo(managerId.intValue(), jobId, departmentId.intValue());
+
+        employee.update(firstName, lastName, email, phoneNumber, hireDate, salary, commissionPct, employeeInfo.getManager(), employee.getJob(), employee.getDepartment());
+
+        return UPDATE_SUCCESS_MESSAGE;
     }
 }
