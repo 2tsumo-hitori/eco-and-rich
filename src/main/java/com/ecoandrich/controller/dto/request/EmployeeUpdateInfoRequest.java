@@ -1,4 +1,4 @@
-package com.ecoandrich.controller.dto;
+package com.ecoandrich.controller.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

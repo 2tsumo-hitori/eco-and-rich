@@ -1,4 +1,4 @@
-package com.ecoandrich.controller.dto;
+package com.ecoandrich.controller.dto.response;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

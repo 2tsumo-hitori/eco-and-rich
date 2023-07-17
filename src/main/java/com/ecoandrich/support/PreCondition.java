@@ -1,6 +1,7 @@
 package com.ecoandrich.support;
 
 import com.ecoandrich.support.exception.ParameterInValidException;
+import com.ecoandrich.support.exception.UnExceptedRequestBodyException;
 import com.ecoandrich.support.exception.WrongParameterNameException;
 import com.ecoandrich.support.exception.WrongRateRangeException;
 
@@ -9,7 +10,7 @@ public class PreCondition {
 
     public static void require(boolean expression) {
         if (!expression) {
-            throw new IllegalArgumentException("파라미터 값이 잘못되었습니다.");
+            throw new UnExceptedRequestBodyException("파라미터 값이 잘못되었습니다.");
         }
     }
 

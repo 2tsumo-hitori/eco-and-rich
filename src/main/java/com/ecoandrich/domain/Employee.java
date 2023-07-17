@@ -1,16 +1,13 @@
 package com.ecoandrich.domain;
 
-import com.ecoandrich.support.PreCondition;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
 
 import static com.ecoandrich.support.PreCondition.*;
 import static java.util.Objects.*;
