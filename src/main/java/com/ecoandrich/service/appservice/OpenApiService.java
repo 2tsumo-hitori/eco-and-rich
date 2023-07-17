@@ -17,9 +17,9 @@ import java.time.format.DateTimeFormatter;
 public class OpenApiService {
 
     public String weatherCheck() throws IOException {
-        StringBuilder urlBuilder = new StringBuilder("http://data.ex.co.kr/openapi/restinfo/restWeatherList"); /*URL*/
+        StringBuilder urlBuilder = new StringBuilder("http://data.ex.co.kr/openapi/restinfo/restWeatherList");
 
-        urlBuilder.append("?" + URLEncoder.encode("key","UTF-8") + "=3778853737"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("key","UTF-8") + "=3778853737");
         urlBuilder.append("&" + URLEncoder.encode("type","UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("sdate","UTF-8") + "=" + URLEncoder.encode(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")), "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("stdHour","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8"));

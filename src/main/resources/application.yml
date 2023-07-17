@@ -14,9 +14,9 @@ spring:
     show-sql: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hr?createDatabaseIfNotExist=true
-    username: root
-    password: 1234
+    url: jdbc:mysql://subjectdb.c7ys8qv3ybqu.ap-southeast-2.rds.amazonaws.com:3306/hr?createDatabaseIfNotExist=true
+    username: admin
+    password: 12341234
   sql:
     init:
       mode: always
