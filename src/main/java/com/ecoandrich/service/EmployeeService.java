@@ -1,12 +1,8 @@
 package com.ecoandrich.service;
 
-import com.ecoandrich.domain.Department;
 import com.ecoandrich.domain.Employee;
-import com.ecoandrich.domain.Job;
-import com.ecoandrich.repository.DepartmentRepository;
 import com.ecoandrich.repository.EmployeeRepository;
 import com.ecoandrich.repository.JobHistoryRepository;
-import com.ecoandrich.repository.JobRepository;
 import com.ecoandrich.service.appservice.EmployeeQueryService;
 import com.ecoandrich.service.dto.GetEmployeeHistoricalInfo;
 import com.ecoandrich.service.dto.GetEmployeeInfo;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static com.querydsl.core.types.Projections.constructor;
 
 @Service
 @RequiredArgsConstructor
@@ -70,7 +65,7 @@ public class EmployeeService {
 
         GetEmployeeInfo employeeInfo = employeeQueryService.employeeInfo(managerId.intValue(), jobId, departmentId.intValue());
 
-        employee.update(firstName, lastName, email, phoneNumber, hireDate, salary, commissionPct, employeeInfo.getManager(), employee.getJob(), employee.getDepartment());
+        employee.update(firstName, lastName, email, phoneNumber, hireDate, salary, commissionPct, employeeInfo.getManager(), employeeInfo.getJob(), employeeInfo.getDepartment());
 
         return UPDATE_SUCCESS_MESSAGE;
     }
